@@ -1,5 +1,64 @@
+import { useState } from "react";
+import { ReactDragDropUpload } from "./components/react-drag-drop-upload";
+import DrawTypes, {
+  DescriptionWrapper,
+} from "./components/react-drag-drop-upload/upload-components";
+import { drawDescription } from "./components/react-drag-drop-upload/file-upload";
+import { Upload } from "lucide-react";
+
 function App() {
-  return <></>;
+  const [fileOrFiles, setFile] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (fileOrFiles: any) => {
+    setFile(fileOrFiles);
+    console.log("changes", fileOrFiles);
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onDrop = (fileOrFiles: any) => {
+    console.log("drop", fileOrFiles);
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onSelect = (fileOrFiles: any) => {
+    console.log("test", fileOrFiles);
+  };
+
+  const onTypeError = (err = "1") => console.log(err);
+  const onSizeError = (err = "1") => console.log(err);
+  console.log(fileOrFiles);
+
+  return (
+    <div className="flex items-center justify-center h-screen w-screen">
+      <ReactDragDropUpload
+        onSelect={onSelect}
+        onDrop={onDrop}
+        handleChange={handleChange}
+        onTypeError={onTypeError}
+        onSizeError={onSizeError}
+        classes="border-zinc-700"
+        types={["JPG", "PNG"]}
+      >
+        {({
+          currFiles,
+          uploaded,
+          error,
+          disabled,
+          label,
+          types,
+          dragging,
+          maxSize,
+          minSize,
+        }) => (
+          <div className="flex flex-col gap-2 items-center">
+            <Upload className="w-8 h-8 text-zinc-700" />
+            <DescriptionWrapper error={error}>
+              {drawDescription(currFiles, uploaded, error, disabled, label)}
+              <DrawTypes types={types} minSize={minSize} maxSize={maxSize} />
+            </DescriptionWrapper>
+          </div>
+        )}
+      </ReactDragDropUpload>
+    </div>
+  );
 }
 
 export default App;

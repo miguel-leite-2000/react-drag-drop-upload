@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { Upload } from "lucide-react";
 
@@ -11,12 +11,23 @@ import DrawTypes, {
 } from "./upload-components";
 import useDragging from "../../hooks/use-dragging";
 
+interface FileUploaderProps {
+  dragging: boolean;
+  error: boolean;
+  currFiles: File[] | File | null;
+  types: Array<string> | undefined;
+  minSize: number | undefined;
+  maxSize: number | undefined;
+  uploaded: boolean;
+  label: string | undefined;
+}
+
 type Props = {
   name?: string;
   hoverTitle?: string;
   types?: Array<string>;
   classes?: string;
-  children?: JSX.Element;
+  children?: (props: FileUploaderProps) => ReactNode | ReactNode;
   maxSize?: number;
   minSize?: number;
   fileOrFiles?: Array<File> | File | null;
@@ -32,6 +43,7 @@ type Props = {
   onDraggingStateChange?: (dragging: boolean) => void;
   dropMessageStyle?: React.CSSProperties | undefined;
 };
+
 /**
  *
  * Draw a description on the frame
@@ -45,7 +57,7 @@ type Props = {
  * @internal
  *
  */
-const drawDescription = (
+export const drawDescription = (
   currFile: Array<File> | File | null,
   uploaded: boolean,
   typeError: boolean,
@@ -223,14 +235,8 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
         disabled={disabled}
         multiple={multiple}
         required={required}
+        hidden
       />
-      {dragging && (
-        <HoverMessage style={dropMessageStyle}>
-          <span className="hover-title absolute top-[50%] left-[50%] translate-x-[50%] translate-y-[50%]">
-            {hoverTitle || "Drop Here"}
-          </span>
-        </HoverMessage>
-      )}
       {!children && (
         <>
           <Upload className={twMerge("upload-icon w-8 h-8 text-primary")} />
@@ -240,7 +246,30 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
           </DescriptionWrapper>
         </>
       )}
-      {children}
+      {typeof children === "function" &&
+        children({
+          dragging,
+          currFiles,
+          error,
+          maxSize,
+          minSize,
+          types,
+          uploaded,
+          label,
+        })}
+
+      {typeof children !== "function" && (
+        <>
+          {dragging && (
+            <HoverMessage style={dropMessageStyle}>
+              <span className="hover-title absolute top-[50%] left-[50%] translate-x-[50%] translate-y-[50%]">
+                {hoverTitle || "Drop Here"}
+              </span>
+            </HoverMessage>
+          )}
+          {children}
+        </>
+      )}
     </UploadWrapper>
   );
 };

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 let draggingCount = 0;
-type Params = {
+export type DraggingProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   labelRef: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +24,7 @@ export default function useDragging({
   multiple,
   handleChanges,
   onDrop,
-}: Params): boolean {
+}: DraggingProps): boolean {
   const [dragging, setDragging] = useState(false);
   const handleClick = useCallback(() => {
     inputRef.current.click();
