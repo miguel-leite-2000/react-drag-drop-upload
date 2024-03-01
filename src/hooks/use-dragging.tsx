@@ -84,6 +84,7 @@ export default function useDragging({
         if (onDrop && success) onDrop(files);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [handleChanges]
   );
   useEffect(() => {
