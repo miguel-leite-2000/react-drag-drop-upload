@@ -1,30 +1,93 @@
-# React + TypeScript + Vite
+# React Drag Drop Upload
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React Drag Drop Upload is a lightweight library for uploading files and images with drag and drop, styled with Tailwind CSS and supporting customization.
 
-Currently, two official plugins are available:
+# Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+npm:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+npm install react-drag-drop-upload
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+yarn:
+
+```bash
+yarn add react-drag-drop-upload
+```
+
+# Example
+
+```tsx
+import { useState } from "react";
+import { ReactDragDropUpload } from "react-drag-drop-upload";
+import DrawTypes, {
+  DescriptionWrapper,
+  DrawDesc,
+} from "react-drag-drop-upload/upload-components";
+import { Upload } from "lucide-react";
+
+function App() {
+  const [fileOrFiles, setFile] = useState(null);
+
+  const handleChange = (fileOrFiles) => {
+    setFile(fileOrFiles);
+    console.log("handleChange", fileOrFiles);
+  };
+
+  const onDrop = (fileOrFiles) => {
+    console.log("onDrop", fileOrFiles);
+  };
+
+  const onSelect = (fileOrFiles) => {
+    console.log("onSelect", fileOrFiles);
+  };
+
+  const onTypeError = (error) => console.log(error);
+  const onSizeError = (error) => console.log(error);
+
+  return (
+    <div className="flex items-center justify-center h-screen w-screen">
+      <ReactDragDropUpload
+        onSelect={onSelect}
+        onDrop={onDrop}
+        handleChange={handleChange}
+        onTypeError={onTypeError}
+        onSizeError={onSizeError}
+        className="border-zinc-700"
+        types={["JPG", "PNG"]}
+        multiple={false}
+      >
+        {({
+          currFiles,
+          uploaded,
+          error,
+          disabled,
+          label,
+          types,
+          maxSize,
+          minSize,
+        }) => (
+          <div className="flex flex-col gap-2 items-center">
+            <Upload className="w-8 h-8 text-zinc-700" />
+            <DescriptionWrapper error={error}>
+              <DrawDesc
+                currFile={currFiles}
+                disabled={disabled}
+                label={label}
+                typeError={error}
+                uploaded={uploaded}
+              />
+              <DrawTypes types={types} minSize={minSize} maxSize={maxSize} />
+            </DescriptionWrapper>
+          </div>
+        )}
+      </ReactDragDropUpload>
+    </div>
+  );
+}
+
+export default App;
+```
+
+# Main Features

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ReactDragDropUpload } from "./components/react-drag-drop-upload";
+import { ReactDragDropUpload } from "./components/react-drag-drog-upload";
 import DrawTypes, {
   DescriptionWrapper,
   DrawDesc,
-} from "./components/react-drag-drop-upload/upload-components";
+} from "./components/react-drag-drog-upload/upload-components";
 import { Upload } from "lucide-react";
 
 function App() {
