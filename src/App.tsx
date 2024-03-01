@@ -2,8 +2,8 @@ import { useState } from "react";
 import { ReactDragDropUpload } from "./components/react-drag-drop-upload";
 import DrawTypes, {
   DescriptionWrapper,
+  DrawDesc,
 } from "./components/react-drag-drop-upload/upload-components";
-import { drawDescription } from "./components/react-drag-drop-upload/file-upload";
 import { Upload } from "lucide-react";
 
 function App() {
@@ -22,8 +22,8 @@ function App() {
     console.log("test", fileOrFiles);
   };
 
-  const onTypeError = (err = "1") => console.log(err);
-  const onSizeError = (err = "1") => console.log(err);
+  const onTypeError = (error = "1") => console.log(error);
+  const onSizeError = (error = "1") => console.log(error);
   console.log(fileOrFiles);
 
   return (
@@ -34,8 +34,9 @@ function App() {
         handleChange={handleChange}
         onTypeError={onTypeError}
         onSizeError={onSizeError}
-        classes="border-zinc-700"
+        className="border-zinc-700"
         types={["JPG", "PNG"]}
+        multiple={false}
       >
         {({
           currFiles,
@@ -44,14 +45,19 @@ function App() {
           disabled,
           label,
           types,
-          dragging,
           maxSize,
           minSize,
         }) => (
           <div className="flex flex-col gap-2 items-center">
             <Upload className="w-8 h-8 text-zinc-700" />
             <DescriptionWrapper error={error}>
-              {drawDescription(currFiles, uploaded, error, disabled, label)}
+              <DrawDesc
+                currFile={currFiles}
+                disabled={disabled}
+                label={label}
+                typeError={error}
+                uploaded={uploaded}
+              />
               <DrawTypes types={types} minSize={minSize} maxSize={maxSize} />
             </DescriptionWrapper>
           </div>

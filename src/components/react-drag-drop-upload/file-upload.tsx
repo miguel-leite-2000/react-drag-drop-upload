@@ -4,8 +4,8 @@ import { Upload } from "lucide-react";
 
 import { acceptedExt, checkType, getFileSizeMB } from "../../utils";
 import DrawTypes, {
-  Description,
   DescriptionWrapper,
+  DrawDesc,
   HoverMessage,
   UploadWrapper,
 } from "./upload-components";
@@ -20,13 +20,14 @@ interface FileUploaderProps {
   maxSize: number | undefined;
   uploaded: boolean;
   label: string | undefined;
+  disabled: boolean | undefined;
 }
 
 type Props = {
   name?: string;
   hoverTitle?: string;
   types?: Array<string>;
-  classes?: string;
+  className?: string | undefined;
   children?: (props: FileUploaderProps) => ReactNode | ReactNode;
   maxSize?: number;
   minSize?: number;
@@ -44,71 +45,13 @@ type Props = {
   dropMessageStyle?: React.CSSProperties | undefined;
 };
 
-/**
- *
- * Draw a description on the frame
- * @param currFile - The uploaded file
- * @param uploaded - boolean to check if the file uploaded or not yet
- * @param typeError - boolean to check if the file has type errors
- * @param disabled - boolean to check if input is disabled
- * @param label - string to add custom label
- * @returns JSX Element
- *
- * @internal
- *
- */
-export const drawDescription = (
-  currFile: Array<File> | File | null,
-  uploaded: boolean,
-  typeError: boolean,
-  disabled: boolean | undefined,
-  label: string | undefined
-) => {
-  return typeError ? (
-    <span className="message-error-type-or-size">
-      File type/size error, Hovered on types!
-    </span>
-  ) : (
-    <Description
-      currFile={currFile}
-      disabled={disabled}
-      label={label}
-      uploaded={uploaded}
-    />
-  );
-};
-
-/**
- * File uploading main function
- * @param props - {name,
-    hoverTitle,
-    types,
-    handleChange,
-    classes,
-    children,
-    maxSize,
-    minSize,
-    fileOrFiles,
-    onSizeError,
-    onTypeError,
-    onSelect,
-    onDrop,
-    onTypeError,
-    disabled,
-    label,
-    multiple,
-    required,
-    onDraggingStateChange
-  }
- * @returns JSX Element
- */
 const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
   const {
     name,
     hoverTitle,
     types,
     handleChange,
-    classes,
+    className,
     children,
     maxSize,
     minSize,
@@ -222,7 +165,7 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
       ref={labelRef}
       htmlFor={name}
       onClick={blockEvent}
-      className={classes}
+      className={className}
       disabled={disabled}
     >
       <input
@@ -241,7 +184,13 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
         <>
           <Upload className={twMerge("upload-icon w-8 h-8 text-primary")} />
           <DescriptionWrapper error={error}>
-            {drawDescription(currFiles, uploaded, error, disabled, label)}
+            <DrawDesc
+              currFile={currFiles}
+              disabled={disabled}
+              label={label}
+              typeError={error}
+              uploaded={uploaded}
+            />
             <DrawTypes types={types} minSize={minSize} maxSize={maxSize} />
           </DescriptionWrapper>
         </>
@@ -256,6 +205,7 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
           types,
           uploaded,
           label,
+          disabled,
         })}
 
       {typeof children !== "function" && (

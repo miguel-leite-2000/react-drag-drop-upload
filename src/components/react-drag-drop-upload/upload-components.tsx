@@ -131,3 +131,32 @@ export default function DrawTypes({
   }
   return null;
 }
+
+type DrawDescProps = {
+  currFile: Array<File> | File | null;
+  uploaded: boolean;
+  typeError: boolean;
+  disabled: boolean | undefined;
+  label: string | undefined;
+};
+
+export const DrawDesc = ({
+  currFile,
+  disabled,
+  label,
+  typeError,
+  uploaded,
+}: DrawDescProps) => {
+  return typeError ? (
+    <span className="message-error-type-or-size">
+      File type/size error, Hovered on types!
+    </span>
+  ) : (
+    <Description
+      currFile={currFile}
+      disabled={disabled}
+      label={label}
+      uploaded={uploaded}
+    />
+  );
+};
