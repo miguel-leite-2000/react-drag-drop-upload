@@ -36,11 +36,11 @@ type Props = {
   label?: string | undefined;
   multiple?: boolean | false;
   required?: boolean | false;
-  onSizeError?: (arg0: string) => void;
-  onTypeError?: (arg0: string) => void;
-  onDrop?: (arg0: File | Array<File>) => void;
-  onSelect?: (arg0: File | Array<File>) => void;
-  handleChange?: (arg0: File | Array<File> | File) => void;
+  onSizeError?: (arg: string) => void;
+  onTypeError?: (arg: string) => void;
+  onDrop?: (arg: File | Array<File>) => void;
+  onSelect?: (arg: File | Array<File>) => void;
+  handleChange?: (arg: File | Array<File> | File) => void;
   onDraggingStateChange?: (dragging: boolean) => void;
   dropMessageStyle?: React.CSSProperties | undefined;
 };
@@ -147,6 +147,7 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
 
   useEffect(() => {
     onDraggingStateChange?.(dragging);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dragging]);
 
   useEffect(() => {

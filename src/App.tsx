@@ -11,19 +11,19 @@ function App() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (fileOrFiles: any) => {
     setFile(fileOrFiles);
-    console.log("changes", fileOrFiles);
+    console.log("handleChange", fileOrFiles);
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onDrop = (fileOrFiles: any) => {
-    console.log("drop", fileOrFiles);
+    console.log("onDrop", fileOrFiles);
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSelect = (fileOrFiles: any) => {
-    console.log("test", fileOrFiles);
+    console.log("onSelect", fileOrFiles);
   };
 
-  const onTypeError = (error = "1") => console.log(error);
-  const onSizeError = (error = "1") => console.log(error);
+  const onTypeError = (error: string) => console.log(error);
+  const onSizeError = (error: string) => console.log(error);
   console.log(fileOrFiles);
 
   return (
