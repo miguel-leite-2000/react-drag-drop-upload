@@ -23,7 +23,7 @@ interface FileUploaderProps {
   disabled: boolean | undefined;
 }
 
-type Props = {
+interface Props {
   name?: string;
   hoverTitle?: string;
   types?: Array<string>;
@@ -43,7 +43,7 @@ type Props = {
   handleChange?: (arg: File | Array<File> | File) => void;
   onDraggingStateChange?: (dragging: boolean) => void;
   dropMessageStyle?: React.CSSProperties | undefined;
-};
+}
 
 const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
   const {

@@ -1,23 +1,23 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-type UploaderWrapperProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
+interface UploaderWrapperProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   disabled?: boolean;
-};
+}
 
-type HoverMessageProps = React.HTMLAttributes<HTMLDivElement>;
+interface HoverMessageProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-type DescriptionWrapperProps = React.HTMLAttributes<HTMLDivElement> & {
+interface DescriptionWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
   error: boolean;
-};
+}
 
-type DescriptionProps = React.HTMLAttributes<HTMLSpanElement> & {
+interface DescriptionProps extends React.HTMLAttributes<HTMLSpanElement> {
   disabled: boolean | undefined;
   label: string | undefined;
   currFile: File | File[] | null;
   uploaded: boolean | undefined;
-};
-
+}
 export const UploadWrapper = React.forwardRef<
   HTMLLabelElement,
   UploaderWrapperProps
@@ -101,11 +101,11 @@ export function Description({
   );
 }
 
-type DrawTypesProps = {
+interface DrawTypesProps {
   types?: Array<string>;
   minSize?: number;
   maxSize?: number;
-};
+}
 /**
  * Draw the types and sizes restrictions for the uploading.
  * @param {Object} fileData file data types, minSize, maxSize
@@ -132,13 +132,13 @@ export default function DrawTypes({
   return null;
 }
 
-type DrawDescProps = {
+interface DrawDescProps {
   currFile: Array<File> | File | null;
   uploaded: boolean;
   typeError: boolean;
   disabled: boolean | undefined;
   label: string | undefined;
-};
+}
 
 export const DrawDesc = ({
   currFile,
