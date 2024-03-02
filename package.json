@@ -1,11 +1,30 @@
 {
   "name": "react-drag-drop-upload",
-  "private": true,
-  "version": "0.0.0",
+  "description": "React Drag Drop Upload is a lightweight library for uploading files and images with drag and drop, styled with Tailwind CSS and supporting customization.",
+  "author": "Miguel Leite <miguelleite2000leite@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "version": "0.0.5",
   "type": "module",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "files": [
+    "/dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "prepare": "npm run build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -16,6 +35,7 @@
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
+    "@types/node": "^20.11.24",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
@@ -28,6 +48,21 @@
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
-    "vite": "^5.1.4"
-  }
+    "vite": "^5.1.4",
+    "vite-plugin-dts": "^3.7.3"
+  },
+  "keywords": [
+    "light-react",
+    "react",
+    "react-drag-drop-file",
+    "react-select-file",
+    "drag",
+    "drop",
+    "upload",
+    "select",
+    "files",
+    "images",
+    "tailwindcss",
+    "tailwind-merge"
+  ]
 }
