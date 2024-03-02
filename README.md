@@ -1,3 +1,6 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://badge.fury.io/js/react-drag-drop-upload.svg)](https://badge.fury.io/js/react-drag-drop-upload)
+
 # React Drag Drop Upload
 
 React Drag Drop Upload is a lightweight library for uploading files and images with drag and drop, styled with Tailwind CSS and supporting customization.
