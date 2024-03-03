@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { ReactDragDropUpload } from "./components/react-drag-drop-upload";
-import DrawTypes, {
+import {
   DescriptionWrapper,
   DrawDesc,
 } from "./components/react-drag-drop-upload/upload-components";
-import { Upload } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 
 function App() {
   const [fileOrFiles, setFile] = useState(null);
@@ -37,32 +37,9 @@ function App() {
         className="border-zinc-700"
         types={["JPG", "PNG"]}
         multiple={false}
-      >
-        {({
-          currFiles,
-          uploaded,
-          error,
-          disabled,
-          label,
-          types,
-          maxSize,
-          minSize,
-        }) => (
-          <div className="flex flex-col gap-2 items-center">
-            <Upload className="w-8 h-8 text-zinc-700" />
-            <DescriptionWrapper error={error}>
-              <DrawDesc
-                currFile={currFiles}
-                disabled={disabled}
-                label={label}
-                typeError={error}
-                uploaded={uploaded}
-              />
-              <DrawTypes types={types} minSize={minSize} maxSize={maxSize} />
-            </DescriptionWrapper>
-          </div>
-        )}
-      </ReactDragDropUpload>
+        maxSize={1024 * 1024}
+        variant="large"
+      />
     </div>
   );
 }

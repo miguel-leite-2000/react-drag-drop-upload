@@ -1,9 +1,8 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
-import { Upload } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 
 import { acceptedExt, checkType, getFileSizeMB } from "../../utils";
-import DrawTypes, {
+import {
   DescriptionWrapper,
   DrawDesc,
   HoverMessage,
@@ -19,12 +18,16 @@ interface FileUploaderProps {
   minSize: number | undefined;
   maxSize: number | undefined;
   uploaded: boolean;
-  label: string | undefined;
+  label?: string | React.ReactElement;
+  description?: string | React.ReactElement;
   disabled: boolean | undefined;
 }
 
 interface Props {
   name?: string;
+  messageSuccess?: string;
+  messageError?: string;
+  variant?: "large" | "small";
   hoverTitle?: string;
   types?: Array<string>;
   className?: string | undefined;
@@ -33,7 +36,8 @@ interface Props {
   minSize?: number;
   fileOrFiles?: Array<File> | File | null;
   disabled?: boolean | false;
-  label?: string | undefined;
+  label?: string | React.ReactElement;
+  description?: string | React.ReactElement;
   multiple?: boolean | false;
   required?: boolean | false;
   onSizeError?: (arg: string) => void;
@@ -66,6 +70,10 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
     required,
     onDraggingStateChange,
     dropMessageStyle,
+    messageError,
+    messageSuccess,
+    description,
+    variant = "large",
   } = props;
   const labelRef = useRef<HTMLLabelElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -77,16 +85,19 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
     if (types && !checkType(file, types)) {
       // types included and type not in them
       setError(true);
+      setUploaded(false);
       if (onTypeError) onTypeError("File type is not supported");
       return false;
     }
     if (maxSize && getFileSizeMB(file.size) > maxSize) {
       setError(true);
+      setUploaded(false);
       if (onSizeError) onSizeError("File size is too big");
       return false;
     }
     if (minSize && getFileSizeMB(file.size) < minSize) {
       setError(true);
+      setUploaded(false);
       if (onSizeError) onSizeError("File size is too small");
       return false;
     }
@@ -168,6 +179,9 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
       onClick={blockEvent}
       className={className}
       disabled={disabled}
+      variant={variant}
+      uploaded={uploaded}
+      error={error}
     >
       <input
         onClick={handleClick}
@@ -183,16 +197,29 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
       />
       {!children && (
         <>
-          <Upload className={twMerge("upload-icon w-8 h-8 text-primary")} />
+          {dragging && (
+            <HoverMessage style={dropMessageStyle}>
+              <span>{hoverTitle || "Drop Here"}</span>
+            </HoverMessage>
+          )}
+          <UploadCloud
+            data-uploaded={uploaded}
+            data-error={error}
+            className="upload-icon w-8 h-8 text-purple-700 data-[uploaded=true]:text-green-700 data-[error=true]:text-red-700"
+          />
           <DescriptionWrapper error={error}>
             <DrawDesc
               currFile={currFiles}
               disabled={disabled}
               label={label}
+              description={description}
               typeError={error}
               uploaded={uploaded}
+              types={types}
+              variant={variant}
+              messageError={messageError}
+              messageSuccess={messageSuccess}
             />
-            <DrawTypes types={types} minSize={minSize} maxSize={maxSize} />
           </DescriptionWrapper>
         </>
       )}
@@ -213,9 +240,7 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
         <>
           {dragging && (
             <HoverMessage style={dropMessageStyle}>
-              <span className="hover-title absolute top-[50%] left-[50%] translate-x-[50%] translate-y-[50%]">
-                {hoverTitle || "Drop Here"}
-              </span>
+              <span>{hoverTitle || "Drop Here"}</span>
             </HoverMessage>
           )}
           {children}

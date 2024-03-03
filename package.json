@@ -4,7 +4,7 @@
   "author": "Miguel Leite <miguelleite2000leite@gmail.com>",
   "license": "MIT",
   "private": false,
-  "version": "1.0.0",
+  "version": "0.0.5",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
