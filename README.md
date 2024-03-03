@@ -23,7 +23,7 @@ yarn add react-drag-drop-upload
 
 ```tsx
 import { useState } from "react";
-import { ReactDragDropUpload } from "./components/react-drag-drop-upload";
+import { ReactDragDropUpload } from "react-drag-drop-upload";
 
 function App() {
   const [fileOrFilesData, setFileOrFilesData] = useState(null);
