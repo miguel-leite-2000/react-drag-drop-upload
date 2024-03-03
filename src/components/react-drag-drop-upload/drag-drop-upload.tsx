@@ -10,7 +10,7 @@ import {
 } from "./upload-components";
 import useDragging from "../../hooks/use-dragging";
 
-interface FileUploaderProps {
+export interface FileUploaderProps {
   dragging: boolean;
   error: boolean;
   currFiles: File[] | File | null;
@@ -23,7 +23,7 @@ interface FileUploaderProps {
   disabled: boolean | undefined;
 }
 
-interface Props {
+export interface DraDropUploadProps {
   name?: string;
   messageSuccess?: string;
   messageError?: string;
@@ -49,7 +49,9 @@ interface Props {
   dropMessageStyle?: React.CSSProperties | undefined;
 }
 
-const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
+const DraDropUpload: React.FC<DraDropUploadProps> = (
+  props: DraDropUploadProps
+): JSX.Element => {
   const {
     name,
     hoverTitle,
@@ -249,4 +251,4 @@ const FileUploader: React.FC<Props> = (props: Props): JSX.Element => {
     </UploadWrapper>
   );
 };
-export default FileUploader;
+export default DraDropUpload;
