@@ -23,69 +23,25 @@ yarn add react-drag-drop-upload
 
 ```tsx
 import { useState } from "react";
-import { ReactDragDropUpload } from "react-drag-drop-upload";
-import DrawTypes, {
-  DescriptionWrapper,
-  DrawDesc,
-} from "react-drag-drop-upload/upload-components";
-import { Upload } from "lucide-react";
+import { ReactDragDropUpload } from "./components/react-drag-drop-upload";
 
 function App() {
-  const [fileOrFiles, setFile] = useState(null);
-
-  const handleChange = (fileOrFiles) => {
-    setFile(fileOrFiles);
-    console.log("handleChange", fileOrFiles);
+  const [fileOrFilesData, setFileOrFilesData] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleChange = (data: any) => {
+    setFileOrFilesData(data);
+    console.log("handleChange", fileOrFilesData);
   };
-
-  const onDrop = (fileOrFiles) => {
-    console.log("onDrop", fileOrFiles);
-  };
-
-  const onSelect = (fileOrFiles) => {
-    console.log("onSelect", fileOrFiles);
-  };
-
-  const onTypeError = (error) => console.log(error);
-  const onSizeError = (error) => console.log(error);
 
   return (
     <div className="flex items-center justify-center h-screen w-screen">
       <ReactDragDropUpload
-        onSelect={onSelect}
-        onDrop={onDrop}
         handleChange={handleChange}
-        onTypeError={onTypeError}
-        onSizeError={onSizeError}
         className="border-zinc-700"
         types={["JPG", "PNG"]}
         multiple={false}
-      >
-        {({
-          currFiles,
-          uploaded,
-          error,
-          disabled,
-          label,
-          types,
-          maxSize,
-          minSize,
-        }) => (
-          <div className="flex flex-col gap-2 items-center">
-            <Upload className="w-8 h-8 text-zinc-700" />
-            <DescriptionWrapper error={error}>
-              <DrawDesc
-                currFile={currFiles}
-                disabled={disabled}
-                label={label}
-                typeError={error}
-                uploaded={uploaded}
-              />
-              <DrawTypes types={types} minSize={minSize} maxSize={maxSize} />
-            </DescriptionWrapper>
-          </div>
-        )}
-      </ReactDragDropUpload>
+        variant="small"
+      />
     </div>
   );
 }
@@ -108,30 +64,55 @@ A component for drag and drop file upload with customizable options.
 
 #### Props
 
-- name?: string - The name attribute for the input element.
-- hoverTitle?: string - The title to display when hovering over the drop area.
-- types?: Array - An array of allowed file types.
-- className?: string - Custom class name for styling.
-- children?: (props: FileUploaderProps) => ReactNode | ReactNode - Render prop function to customize the component's rendering.
-- maxSize?: number - The maximum allowed file size in bytes.
-- minSize?: number - The minimum allowed file size in bytes.
-- fileOrFiles?: Array | File | null - The currently selected file or files.
-- disabled?: boolean - Indicates if the upload is disabled.
-- label?: string - The label for the file input.
-- multiple?: boolean - Allows multiple files to be uploaded.
-- required?: boolean - Indicates if the input is required.
-- onSizeError?: (arg: string) => void - Callback function for size errors.
-- onTypeError?: (arg: string) => void - Callback function for type errors.
-- onDrop?: (arg: File | Array) => void - Callback function when files are dropped.
-- onSelect?: (arg: File | Array) => void - Callback function when files are selected.
-- handleChange?: (arg: File | Array | File) => void - Callback function when files are selected or dropped.
-- onDraggingStateChange?: (dragging: boolean) => void - Callback function for dragging state changes.
-- dropMessageStyle?: React.CSSProperties - Custom styles for the drop message.
+| Property              | Type                                                              | Description                                              |
+| --------------------- | ----------------------------------------------------------------- | -------------------------------------------------------- |
+| name                  | string \| undefined                                               | The name attribute for the input element.input.          |
+| messageSuccess        | string \| undefined                                               | The success message displayed after the upload.          |
+| messageError          | string \| undefined                                               | The error message displayed if the upload fails.         |
+| variant               | "large" \| "small" \| undefined                                   | The variant of the component. Can be "large" or "small". |
+| hoverTitle            | string \| undefined                                               | The title displayed when hovering over the drop zone.    |
+| types                 | Array<string> \| undefined                                        | An array of allowed file types.                          |
+| className             | string \| undefined                                               | The custom class for styling.                            |
+| children              | (props: FileUploaderProps) => ReactNode \| ReactNode \| undefined | The component's custom rendering function.               |
+| maxSize               | number \| undefined                                               | The maximum file size allowed in bytes.                  |
+| minSize               | number \| undefined                                               | The minimum file size allowed in bytes.                  |
+| fileOrFiles           | Array<File> \| File \| null \| undefined                          | The currently selected file or files.                    |
+| disabled              | boolean \| false \| undefined                                     | Indicates whether uploading is disabled.                 |
+| label                 | string \| React.ReactElement \| undefined                         | The label for the file input.                            |
+| description           | string \| React.ReactElement \| undefined                         | The description for the file input.                      |
+| multiple              | boolean \| false \| undefined                                     | Allows multiple files to be uploaded.                    |
+| required              | boolean \| false \| undefined                                     | Indicates whether the input is mandatory.                |
+| onSizeError           | (arg: string) => void \| undefined                                | Callback function for size errors.                       |
+| onTypeError           | (arg: string) => void \| undefined                                | Callback function for type errors.                       |
+| onDrop                | (arg: File \| Array<File>) => void \| undefined                   | Callback function when files are dropped.                |
+| onSelect              | (arg: File \| Array<File>) => void \| undefined                   | Callback function when files are selected.               |
+| handleChange          | (arg: File \| Array<File> \| File) => void \| undefined           | Callback function when files are selected or dropped.    |
+| onDraggingStateChange | (dragging: boolean) => void \| undefined                          | Callback function for dragging state changes.            |
+| dropMessageStyle      | React.CSSProperties \| undefined                                  | Custom styles for the drop message.                      |
+
+Translated with DeepL.com (free version)
+
+### FileUploaderProps Interface
+
+The `FileUploaderProps` interface describes the properties expected by the `ReactDragDropUpload` component.
+
+| Property    | Type                                      | Description                                                   |
+| ----------- | ----------------------------------------- | ------------------------------------------------------------- |
+| dragging    | boolean                                   | Indicates whether a file is being dragged over the drop area. |
+| error       | boolean                                   | Indicates if an error occurred during the upload.             |
+| currFiles   | File[] \| File \| null                    | The currently selected file or files.                         |
+| types       | Array<string> \| undefined                | An array of allowed file types.                               |
+| minSize     | number \| undefined                       | The minimum allowed file size in bytes.                       |
+| maxSize     | number \| undefined                       | The maximum allowed file size in bytes.                       |
+| uploaded    | boolean                                   | Indicates whether the file was uploaded successfully.         |
+| label       | string \| React.ReactElement \| undefined | The label for the file input.                                 |
+| description | string \| React.ReactElement \| undefined | The description for the file input.                           |
+| disabled    | boolean \| undefined                      |
 
 #### Usage
 
 ```tsx
-<FileUploader
+<ReactDragDropUpload
   name="file"
   types={["jpg", "png"]}
   maxSize={1024 * 1024 * 5} // 5MB
@@ -143,7 +124,7 @@ A component for drag and drop file upload with customizable options.
     // Custom rendering based on file upload state
     // e.g., show current file, upload progress, error messages, etc.
   )}
-</FileUploader>
+</ReactDragDropUpload>
 ```
 
 ### UploadWrapper Component
@@ -152,14 +133,16 @@ A styled wrapper for the file upload component.
 
 #### Props
 
-- disabled?: boolean - Indicates if the upload is disabled.
+- disabled?: boolean
+- \- Indica se o upload está desativado.
+- variant?: "large" | "small" - A variante do componente. Pode ser "large" ou "small".
+- uploaded?: boolean - Indica se o arquivo foi enviado com sucesso.
+- error?: boolean - Indica se ocorreu um erro durante o upload.
 
 #### Usage
 
 ```tsx
-<UploadWrapper disabled={false}>
-  {/* Render file upload components here */}
-</UploadWrapper>
+<UploadWrapper>{/* Render file upload components here */}</UploadWrapper>
 ```
 
 ### DescriptionWrapper Component
@@ -173,7 +156,7 @@ A wrapper component for the file upload description.
 #### Usage
 
 ```tsx
-<DescriptionWrapper error={false}>
+<DescriptionWrapper>
   {/* Render file description components here */}
 </DescriptionWrapper>
 ```
@@ -184,10 +167,15 @@ A component to display the file upload description.
 
 #### Props
 
-- disabled: boolean | undefined - Indicates if the upload is disabled.
-- label: string | undefined - The label for the file input.
-- currFile: File | File\[\] | null - The currently selected file or files.
-- uploaded: boolean | undefined - Indicates if the file has been successfully uploaded.
+- disabled: boolean | undefined
+- \- Indica se o upload está desativado.
+- label?: string | React.ReactElement - O rótulo para o input de arquivo.
+- description?: string | React.ReactElement - A descrição para o input de arquivo.
+- currFile: File | File\[\] | null - O arquivo ou arquivos atualmente selecionados.
+- uploaded: boolean | undefined - Indica se o arquivo foi enviado com sucesso.
+- types?: Array - Um array de tipos de arquivo permitidos.
+- variant: "large" | "small" - A variante do componente. Pode ser "large" ou "small".
+- messageSuccess?: string - A mensagem de sucesso exibida após o upload.
 
 #### Usage
 
@@ -222,11 +210,16 @@ A component to draw the file description based on the current file upload state.
 
 #### Props
 
-- currFile: Array | File | null - The currently selected file or files.
-- uploaded: boolean - Indicates if the file has been successfully uploaded.
-- typeError: boolean - Indicates if there is a file type error.
-- disabled: boolean | undefined - Indicates if the upload is disabled.
-- label: string | undefined - The label for the file input.
+- currFile: Array | File | null - O arquivo ou arquivos atualmente selecionados.
+- uploaded: boolean - Indica se o arquivo foi enviado com sucesso.
+- typeError: boolean - Indica se há um erro de tipo de arquivo.
+- disabled: boolean | undefined - Indica se o upload está desativado.
+- label?: string | React.ReactElement - O rótulo para o input de arquivo.
+- description?: string | React.ReactElement - A descrição para o input de arquivo.
+- types?: Array - Um array de tipos de arquivo permitidos.
+- variant: "large" | "small" - A variante do componente.
+- messageError?: string - A mensagem de erro exibida em caso de falha no upload.
+- messageSuccess?: string - A mensagem de sucesso exibida após o upload.
 
 #### Usage
 
@@ -242,7 +235,7 @@ A component to draw the file description based on the current file upload state.
 
 ## License
 
-This library is licensed under the MIT license. See the LICENSE file for details.
+This library is licensed under the [MIT](https://choosealicense.com/licenses/mit/) license. See the LICENSE file for details.
 
 ## Contributing
 
