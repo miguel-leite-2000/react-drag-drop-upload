@@ -21,9 +21,9 @@ yarn add react-drag-drop-upload
 
 ## Example
 
-| large                                                                | small                                                                |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| <img src="large.png" alt="large component" width="400" height="130"> | <img src="small.png" alt="small component" width="450" height="160"> |
+| large                                                                  | small                                                                  |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| <img src="./large.png" alt="large component" width="400" height="130"> | <img src="./small.png" alt="small component" width="450" height="160"> |
 
 ```tsx
 import { useState } from "react";
