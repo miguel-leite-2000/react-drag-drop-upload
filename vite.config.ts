@@ -9,6 +9,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, "index.ts"),
       name: "react-drag-drop-upload",
+      formats: ["es", "umd"],
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
