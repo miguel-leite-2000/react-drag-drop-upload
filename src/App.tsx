@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ReactDragDropUpload } from "./components/react-drag-drop-upload";
+import { ReactDragDropUpload } from "..";
 
 function App() {
   const [fileOrFilesData, setFileOrFilesData] = useState(null);
@@ -16,7 +16,7 @@ function App() {
         className="border-zinc-700"
         types={["JPG", "PNG"]}
         multiple={false}
-        variant="small"
+        variant="large"
       />
     </div>
   );
