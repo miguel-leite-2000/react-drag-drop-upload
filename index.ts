@@ -1,4 +1,11 @@
-export { ReactDragDropUpload } from "./src/components/react-drag-drop-upload";
+export {
+  ReactDragDropUpload,
+  Description,
+  DescriptionWrapper,
+  HoverMessage,
+  UploadWrapper,
+  DrawTypes,
+} from "./src/components/react-drag-drop-upload";
 
 export type {
   ReactDragDropUploadProps,
